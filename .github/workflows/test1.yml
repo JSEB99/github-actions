@@ -1,0 +1,11 @@
+name: Hola mundo
+
+on: [push] # Se ejecute cuando hago push
+
+jobs:
+  hola: #Nombre representativo
+    runs-on: ubuntu-latest # SO de ejecución
+
+    steps:
+    - name: Hola Mundo 
+      run: echo "Hola Mundo"

@@ -126,3 +126,38 @@ jobs:
     - name: LS
       run: ls -al
 ```
+
+Si seleccionamos la acción en la pestaña `Actions` veremos lo siguiente:
+
+![actions-jobs](./images/jobs.png)
+
+Donde podremos ver que hace cada job seleccionandolo en la pestaña de la izquierda, ahora procederemos a realizar mas acciones:
+
+```yml
+name: Hola mundo
+
+on: [push] # Se ejecute cuando hago push
+
+jobs:
+  hola: #Nombre representativo
+    runs-on: ubuntu-latest # SO de ejecución
+
+    steps:
+    - name: Hola Mundo 
+      run: echo "Hola Mundo"
+
+    - name: Touch file
+      run: touch hola.txt
+
+    - name: Set text
+      run : echo "Hola Mundo" >> hola.txt
+
+    - name: Read file
+      run: cat hola.txt
+  
+  other:
+    runs-on: ubuntu-latest
+    steps:
+    - name: LS 
+      run: ls -al
+```

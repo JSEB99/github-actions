@@ -191,3 +191,14 @@ Por lo que ahora el esquema sería de la siguiente manera:
 
 Los eventos serán los disparadores *(Triggers)* que van a darle **indicación para ejecutar el workflow**, en el anterior ejemplo usamos el evento `Push`, es decir, que el disparador será cada que se realice un push al repositorio. [Documentación eventos](https://docs.github.com/es/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows)
 
+Entonces realizamos lo siguiente:
+1. nueva rama `pr`
+2. nuevo archivo
+3. push a la rama
+4. pr
+
+Luego si queremos hacer que esto sea de disparador le pondremos `pull_request` de la siguiente forma:
+
+```yml
+on: [push, pull_request] # Funciona con ambos
+```

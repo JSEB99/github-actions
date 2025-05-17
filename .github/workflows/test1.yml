@@ -1,6 +1,6 @@
 name: Hola mundo
 
-on: [push] # Se ejecute cuando hago push
+on: [push, pull_request] # Se ejecute cuando hago push
 
 jobs:
   hola: #Nombre representativo

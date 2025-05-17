@@ -161,3 +161,22 @@ jobs:
     - name: LS 
       run: ls -al
 ```
+
+Donde añadimos la creación de un archivo, envío de texto al archivo y lectura del archivo. *Entonces subimos al repositorio...* y veremos lo siguiente:
+
+![github-actions-pipeline](./images/github-pipe.png)
+
+> **Nota**: los jobs se ejecutan de manera independiente y paralela, *se pueden generar dependencias para que un job se ejecute despues de otro*
+
+**Generando dependencia**
+
+En el job other agregaremos lo siguiente:
+
+```yml
+  other:
+    runs-on: ubuntu-latest
+    needs: hola # dependencia del job hola, tambien se puede definir asi [hola]
+    steps:
+    - name: LS
+      run: ls -al
+```

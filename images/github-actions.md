@@ -202,3 +202,23 @@ Luego si queremos hacer que esto sea de disparador le pondremos `pull_request` d
 ```yml
 on: [push, pull_request] # Funciona con ambos
 ```
+
+Actualizando la página de la pr donde estabamos, tendremos lo siguiente:
+
+![pr-action](./images/pr-actions.png)
+
+Donde vemos que se ejecuto el workflow que teniamos programado en el archivo `yaml`.
+
+**¿Cómo hago para que el disparador sea de acuerdo a una rama?**
+
+Tendremos que definir a que rama se le aplicará cada acción:
+
+````yml
+on:
+  push:
+    branches:
+      - main # Puede ser una lista
+  pull_request:
+    branches:
+      - main
+```

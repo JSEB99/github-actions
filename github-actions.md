@@ -81,3 +81,48 @@ Verificar si el `yaml` esta bien: [YAML LINT](https://www.yamllint.com/)
 
 ### Primer Workflow
 
+```yml
+name: Hola mundo
+
+on: [push] # Se ejecute cuando hago push
+
+jobs:
+  hola: #Nombre representativo
+    runs-on: ubuntu-latest # SO de ejecución
+
+    steps:
+    - name: Hola Mundo 
+      run: echo "Hola Mundo"
+```
+
+Una vez en GitHub aparecera un punto donde si le damos clic:
+
+![pending-success](./images/pending-success.png)
+
+Nos llevara al actions, donde si damos en `details` podremos ver la ejecución de los pasos realizados en actions de acuerdo al `yaml` que configuramos.
+
+### Jobs & Steps
+
+> En la pestana `Actions` en GitHub podremos ver el historial
+
+Dentro en un workflow podremos tener **multiples jobs**, entonces en el anterior añadiremos los siguiente
+
+```yml
+name: Hola mundo
+
+on: [push] # Se ejecute cuando hago push
+
+jobs:
+  hola: #Nombre representativo
+    runs-on: ubuntu-latest # SO de ejecución
+
+    steps:
+    - name: Hola Mundo 
+      run: echo "Hola Mundo"
+
+  other:
+    runs-on: ubuntu-latest
+    steps:
+    - name: LS
+      run: ls -al
+```

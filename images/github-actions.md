@@ -180,3 +180,14 @@ En el job other agregaremos lo siguiente:
     - name: LS
       run: ls -al
 ```
+
+Por lo que ahora el esquema sería de la siguiente manera:
+
+![actions-dependency](./images/actions-dependency.png)
+
+> **Aviso** aparece cargandose porque aun no terminaba de ejecutarse
+
+### Eventos
+
+Los eventos serán los disparadores *(Triggers)* que van a darle **indicación para ejecutar el workflow**, en el anterior ejemplo usamos el evento `Push`, es decir, que el disparador será cada que se realice un push al repositorio. [Documentación eventos](https://docs.github.com/es/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows)
+

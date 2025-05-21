@@ -12,5 +12,5 @@ jobs:
         uses: actions/checkout@v4.2.2
 
       - name: ls
-        run: ./.github/actions/my-action/action.yml
+        run: ./.github/actions/my-action
         shell: bash

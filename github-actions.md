@@ -308,6 +308,55 @@ Agregando la bandera `-y` a la instalación del curl para aceptar todos los paqu
 sudo apt-get install curl -y
 ```
 
+### Uso de Actions
+
+Poder configurar nuestro entorno, ejemplo tendremos que instalar node. **Idealmente,** se debería buscar en el marketplace si ya esta esa acción. Entonces, la buscamos [node environment](https://github.com/marketplace/actions/setup-node-js-environment) y procedemos a usarla
+
+```yml
+name: Hola mundo
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  hola: #Nombre representativo
+    runs-on: ubuntu-latest # SO de ejecución
+
+    steps:
+    - name: Hola Mundo 
+      run: echo "Hola Mundo"
+
+    - name: Touch file
+      run: touch hola.txt
+
+    - name: Set text
+      run : echo "Hola Mundo" >> hola.txt
+
+    - name: Read file
+      run: cat hola.txt
+  
+  other:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.2.2
+    - name: LS 
+      run: ls -al
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v4.4.0
+    - name: node version
+      run: node --version
+```
+
+Agregamos node y revisamos si se instalo mediante `node --version`
+
+
 
 
 

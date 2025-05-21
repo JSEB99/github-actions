@@ -419,7 +419,7 @@ jobs:
         uses: actions/checkout@v4.2.2
 
       - name: ls
-        run: ./.github/actions/my-action
+        uses: ./.github/actions/my-action
 ```
 
 > No es necesario pasarle el archivo ya que el por defecto lo va a buscar

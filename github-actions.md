@@ -273,6 +273,35 @@ jobs:
           cat hola.txt
 ```
 
+Entonces cuando hacemos push subimos todo lo agregado al repositorio, de esta manera si generamos scripts en el repositorio podremos usarlos con el workflow
+
+```sh
+apt-get update
+
+apt-get install curl
+```
+
+Para poder acceder a ese script, primero usaremos `checkout` para poder ver el repositorio y posteriormente usar el script, entonces le daremos permisos de ejecución y procederemos a invocarlo.
+
+```yml
+name: Test
+
+on: [push]
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+      - name: ls
+        run: |
+          chmod +x script.sh
+          ./script.sh
+```
+
+
 
 
 

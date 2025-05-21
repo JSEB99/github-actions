@@ -354,10 +354,21 @@ jobs:
       run: node --version
 ```
 
-Agregamos node y revisamos si se instalo mediante `node --version`
+Agregamos node y revisamos si se instalo mediante `node --version`, ademas mediante los pasos podemos agregar un atributo `with` que nos permitira **enviarle parametros** al comando, entonces añadiremos lo siguiente al step del ambiente
 
+```yml
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v4.4.0
+      with:
+        node-version: latest
+    - name: node version
+      run: node --version
+    # instalando dependencias
+    - name: instalar dependencias
+      run: npm install
+```
 
-
+Donde le especificamos que queremos la ultima versión de node, ademas ya con *node instalado* procedemos a instalar la dependencia de **npm**.
 
 
 

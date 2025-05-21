@@ -37,3 +37,8 @@ jobs:
       uses: actions/setup-node@v4.4.0
     - name: node version
       run: node --version
+      with:
+        node-version: latest
+    # instalando dependencias
+    - name: instalar dependencias
+      run: npm install

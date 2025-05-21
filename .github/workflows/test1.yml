@@ -1,36 +1,36 @@
-name: Hola mundo
+# name: Hola mundo
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
 
-jobs:
-  hola: #Nombre representativo
-    runs-on: ubuntu-latest # SO de ejecución
+# jobs:
+#   hola: #Nombre representativo
+#     runs-on: ubuntu-latest # SO de ejecución
 
-    steps:
-    - name: Hola Mundo 
-      run: echo "Hola Mundo"
+#     steps:
+#     - name: Hola Mundo 
+#       run: echo "Hola Mundo"
 
-    - name: Touch file
-      run: touch hola.txt
+#     - name: Touch file
+#       run: touch hola.txt
 
-    - name: Set text
-      run : echo "Hola Mundo" >> hola.txt
+#     - name: Set text
+#       run : echo "Hola Mundo" >> hola.txt
 
-    - name: Read file
-      run: cat hola.txt
+#     - name: Read file
+#       run: cat hola.txt
   
-  other:
-    runs-on: ubuntu-latest
-    needs: hola
+#   other:
+#     runs-on: ubuntu-latest
+#     needs: hola
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4.2.2
-    - name: LS 
-      run: ls -al
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v4.2.2
+#     - name: LS 
+#       run: ls -al

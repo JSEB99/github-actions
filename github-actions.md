@@ -249,6 +249,31 @@ other:
       uses: actions/checkout@v4.2.2
 ```
 
+De esta manera obtenemos ubicarnos en el repositorio, de tal manera que cuando hagamos el *ls* si nos retorne los archivos del repositorio
+
+![checkout-exe](./images/checkout-exe.png)
+
+### Instalación de paquetes
+
+A veces un problema que se puede presentar es el uso de scripts multilinea, para ello podemos usar `|` para generar un string multilinea
+
+```yml
+name: Test
+
+on: [push]
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ls
+        run: |
+          echo "Hola Mundo" >> hola.txt
+          cat hola.txt
+```
+
+
 
 
 

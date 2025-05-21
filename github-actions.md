@@ -276,9 +276,9 @@ jobs:
 Entonces cuando hacemos push subimos todo lo agregado al repositorio, de esta manera si generamos scripts en el repositorio podremos usarlos con el workflow
 
 ```sh
-apt-get update
+sudo apt-get update
 
-apt-get install curl
+sudo apt-get install curl
 ```
 
 Para poder acceder a ese script, primero usaremos `checkout` para poder ver el repositorio y posteriormente usar el script, entonces le daremos permisos de ejecución y procederemos a invocarlo.
@@ -286,7 +286,7 @@ Para poder acceder a ese script, primero usaremos `checkout` para poder ver el r
 ```yml
 name: Test
 
-on: [push]
+on: push
 
 jobs:
   test-build:

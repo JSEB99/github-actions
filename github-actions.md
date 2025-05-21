@@ -302,6 +302,14 @@ jobs:
           ./script.sh
 ```
 
+Agregando la bandera `-y` a la instalación del curl para aceptar todos los paquetes que se instalan
+
+```sh
+sudo apt-get install curl -y
+```
+
+
+
 
 
 

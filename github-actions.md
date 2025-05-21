@@ -286,7 +286,8 @@ Para poder acceder a ese script, primero usaremos `checkout` para poder ver el r
 ```yml
 name: Test
 
-on: push
+on: 
+  push:
 
 jobs:
   test-build:

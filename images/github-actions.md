@@ -213,7 +213,7 @@ Donde vemos que se ejecuto el workflow que teniamos programado en el archivo `ya
 
 Tendremos que definir a que rama se le aplicará cada acción:
 
-````yml
+```yml
 on:
   push:
     branches:
@@ -222,3 +222,5 @@ on:
     branches:
       - main
 ```
+
+> **Nota**: En este caso se realiza la acción debido a que se realiza un *pull request sobre la rama main*

@@ -224,3 +224,31 @@ on:
 ```
 
 > **Nota**: En este caso se realiza la acción debido a que se realiza un *pull request sobre la rama main*
+
+### Actions
+
+Bloque de código **reutilizable** que realiza una tarea en especifico en un step.
+
+> Agrupar todos los steps que tenemos y utilizarlos en diferentes workflows
+
+GitHub actions tambien dispone de diferentes acciones ya preestablecidas en su marketplace: [Actions marketplace](https://github.com/marketplace?type=actions)
+
+Entonces, como ejemplo usaremos una que ya esta llamada `checkout`, para ello en el marketplace>buscamos la acción>le damos en *use latest version* y copiamos el código:
+
+![checkout-action](./images/checkout-action.png)
+
+Entonces en la parte de los **steps** podremos pegar el código quedando asi:
+
+```YML
+other:
+    runs-on: ubuntu-latest
+    needs: hola
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.2.2
+```
+
+
+
+

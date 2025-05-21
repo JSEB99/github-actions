@@ -39,6 +39,10 @@ jobs:
         node-version: latest
     - name: node version
       run: node --version
-    # instalando dependencias
-    - name: instalar dependencias
-      run: npm install
+    - name: PHP
+      run: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+    - name: php version
+      run: php --version
+    

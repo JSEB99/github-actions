@@ -368,7 +368,18 @@ Agregamos node y revisamos si se instalo mediante `node --version`, ademas media
       run: npm install
 ```
 
-Donde le especificamos que queremos la ultima versión de node, ademas ya con *node instalado* procedemos a instalar la dependencia de **npm**.
+> **Advertencia:** node necesita el *package.json* por lo que da error.
+
+Donde le especificamos que queremos la ultima versión de node, ademas ya con *node instalado* procedemos a instalar la dependencia de **npm**. Ahora procederemos a instalar `php` por ejemplo, para ello agregamos lo siguiente al final
+
+```yml
+    - name: PHP
+      run: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+    - name: php version
+      run: php --version
+```
 
 
 

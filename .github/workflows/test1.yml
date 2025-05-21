@@ -40,7 +40,7 @@ jobs:
     - name: node version
       run: node --version
     - name: PHP
-      run: shivammathur/setup-php@v2
+      uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
     - name: php version

@@ -374,7 +374,7 @@ Donde le especificamos que queremos la ultima versión de node, ademas ya con *n
 
 ```yml
     - name: PHP
-      run: shivammathur/setup-php@v2
+      uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
     - name: php version

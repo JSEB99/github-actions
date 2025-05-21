@@ -1,0 +1,9 @@
+name: "My action"
+desciption: "Test my action"
+
+runs:
+  using: "composite" # acciones de tipo composite permiten agrupar pasos comunes
+
+  steps:
+    - name: Hola Mundo
+      run: echo "Hola Mundo"

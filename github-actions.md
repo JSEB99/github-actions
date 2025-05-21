@@ -381,6 +381,51 @@ Donde le especificamos que queremos la ultima versión de node, ademas ya con *n
       run: php --version
 ```
 
+### Actions Reutilizar
+
+Pero como puedo yo utilizar estos bloques de código personalizados, para ello crearemos una carpeta en `.github` crearemos una carpeta llamada `actions` y dentro podemos tener subcarpetas de las acciones y cada una tendra su archivo `yml` Quedando algo asi `.github/actions/my-action/action.yml`, ya en nuestra acción tendremos lo siguiente
+
+```yml
+name: "My action"
+desciption: "Test my action"
+
+runs:
+  using: "composite" # acciones de tipo composite permiten agrupar pasos comunes
+
+  steps:
+    - name: Hola Mundo
+      run: echo "Hola Mundo"
+      shell: bash
+```
+
+**importante** usar la directiva `shell: bash` para poder ejecutar acciones de tipo `composite`.
+
+> La acción de tipo composite nos permitira agrupar y reutilizar neustras acciones
+
+Para poder usarla iremos a nuestro yml del workflow quedando de la siguiente manera:
+
+```yml
+name: Test
+
+on:
+  push:
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: ls
+        run: ./.github/actions/my-action
+```
+
+> No es necesario pasarle el archivo ya que el por defecto lo va a buscar
+
+
+
 
 
 

@@ -424,10 +424,49 @@ jobs:
 
 > No es necesario pasarle el archivo ya que el por defecto lo va a buscar
 
+### Parámetros
 
+Como vimos podemos pasarle parametros a la acción, esto se puede hacer tambien con los compostie personalizados, para ello iremos a la acción, donde definiremos la directiva que se llama inputs, le definimos el nombre del parametro *(podemos definir que hace, valores que lleva, etc)*.
 
+Para poder acceder a ellas en el step nos apoyamos en los contextos, **para ello accedemos directamente a los inputs y de ahí al apartado que queramos**
 
+```yml
+name: "My action"
+desciption: "Test my action"
 
+inputs:
+  message:
+    description: "The message to print"
+    required: true
+    default: "Hola" # Valor por defectos
 
+runs:
+  using: "composite" # acciones de tipo composite permiten agrupar pasos comunes
 
+  steps:
+    - name: Hola Mundo
+      run: echo "Hola ${{ inputs.message }}"
+      shell: bash
+```
 
+En cuanto al workflow, le pasaremos el nombre de la variable con el mensaje
+
+```yml
+name: Test
+
+on:
+  push:
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: ls
+        uses: ./.github/actions/my-action
+        with:
+          message: "SebDev"
+```

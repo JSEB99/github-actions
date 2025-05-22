@@ -498,3 +498,31 @@ jobs:
 ```
 
 > **Advertencia**: Definir los steps para que no arroje error
+
+Generando mas servicios...
+
+```yml
+name: Ejemplo de Composite action
+
+on: [push]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql: # Nombre de servicio
+        image: mysql:5.7 # imagen de mysql (dockerhub)
+        env: # Ambiente
+          MYSQL_ROOT_PASSWORD: example
+        ports:
+          - 3306:3306
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+    # Definir steps sino arroja ERROR
+    steps:
+      - name: Test
+        run: pwd
+```

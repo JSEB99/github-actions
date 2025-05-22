@@ -491,4 +491,10 @@ jobs:
           MYSQL_ROOT_PASSWORD: example
         ports:
           - 3306:3306
+    # Definir steps sino arroja ERROR
+    steps:
+      - name: Test
+        run: pwd
 ```
+
+> **Advertencia**: Definir los steps para que no arroje error

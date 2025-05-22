@@ -470,3 +470,25 @@ jobs:
         with:
           message: "SebDev"
 ```
+
+### Servicios
+
+De vez en cuando necesitamos instalar servicios para que se ejecute de manera correcta, tales como, *MySQL, Redis, etc*. Para ese tipo de casos, se nos permite utilizar contenedores de `Docker`. Entonces en nuestro workflow
+
+```yml
+name: Ejemplo de Composite action
+
+on: [push]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql: # Nombre de servicio
+        image: mysql:5.7 # imagen de mysql (dockerhub)
+        env: # Ambiente
+          MYSQL_ROOT_PASSWORD: example
+        ports:
+          - 3306:3306
+```

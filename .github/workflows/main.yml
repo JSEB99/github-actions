@@ -1,17 +1,17 @@
-name: Test
+# name: Test
 
-on:
-  push:
+# on:
+#   push:
 
-jobs:
-  test-build:
-    runs-on: ubuntu-latest
+# jobs:
+#   test-build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4.2.2
 
-      - name: ls
-        uses: ./.github/actions/my-action
-        with:
-          message: "SebDev"
+#       - name: ls
+#         uses: ./.github/actions/my-action
+#         with:
+#           message: "SebDev"

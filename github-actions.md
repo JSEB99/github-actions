@@ -602,8 +602,8 @@ jobs:
           STEP_MY_VAR: GOAT
         run: |
           echo "EL $STEP_MY_VAR $MY_VAR!!!"
-          echo "Variable en GitHub $vars.MY_VARIABLE_2"
+          echo "Variable en GitHub ${{ vars.MY_VARIABLE_2 }}"
 ```
 
-> **Ojo:** vars.MY_VARIABLE_2
+> **Ojo:** vars.MY_VARIABLE_2 y que esta vez si tenemos que usar las **llaves**
 

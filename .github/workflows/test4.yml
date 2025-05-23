@@ -1,25 +1,25 @@
-name: Test Composite Action
+# name: Test Composite Action
 
-on: [push]
+# on: [push]
 
-jobs:
-  local-action:
-    runs-on: ubuntu-latest
+# jobs:
+#   local-action:
+#     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        php-version: [7.4, 8.0, 8.1]
+#     strategy:
+#       matrix:
+#         php-version: [7.4, 8.0, 8.1]
     
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
       
-      - name: Set Up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
+#       - name: Set Up PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: ${{ matrix.php-version }}
       
-      - name: Run Script
-        run: |
-          echo "PHP version ${{ matrix.php-version }}"
-          php -v
+#       - name: Run Script
+#         run: |
+#           echo "PHP version ${{ matrix.php-version }}"
+#           php -v

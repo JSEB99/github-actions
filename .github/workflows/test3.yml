@@ -13,4 +13,4 @@ jobs:
       - name: Test
         env:
           STEP_MY_VAR: GOAT
-        run: echo "EL $STEP_MY_VAR ${{ MY_VAR }}!!!"
+        run: echo "EL $STEP_MY_VAR $MY_VAR!!!"

@@ -569,5 +569,5 @@ jobs:
       # A nivel del step
         env:
           STEP_MY_VAR: GOAT
-        run: echo "EL $STEP_MY_VAR ${{ MY_VAR }}!!!"
+        run: echo "EL $STEP_MY_VAR $MY_VAR!!!"
 ```

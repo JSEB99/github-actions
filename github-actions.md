@@ -1055,3 +1055,36 @@ jobs:
       - name: ls
         run: ls -al
 ```
+
+Veremos el workflow en el menu de la izquierda:
+
+![workflow test5](./images/test5-workflow.png)
+
+Nos muestra lo siguiente, indicandonos que podremos correr el workflow y ademas indicarle la rama:
+
+![workflow test 5 run](./images/test5-workflow-run.png)
+
+Una vez le damos en ejecutar, el workflow procede a ejecutarse como lo haría normalmente. Permite mantener despliegues controlados. *Otro aspecto importante es que podemos definirle entradas que podemos utilizar*, para ello, le agregamos `inputs` al dispatch le agregaremos lo siguiente:
+
+```yml
+name: Test5
+
+on:
+  workflow_dispatch:
+    inputs:
+      test:
+        description: 'Test'
+        required: true
+        default: 'test'
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: CheckOut
+        uses: actions/checkout@v2
+
+      - name: ls
+        run: ls -al
+```

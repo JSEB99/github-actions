@@ -694,3 +694,257 @@ jobs:
 Cuando trabajamos con secretos debemos dar un **formateo**, es decir dentro del servidor generar un directorio `.ssh` que es donde se ubican estos archivos. Luego enviamos la información a un archivo llamado `id_rsa` que es el archivo por defecto que revisa en el servidor. *cambiamos permisos para poder usar el archivo*. Aun con eso nos daria un error, ya que debemos aprobar la conexión al servidor, para ello usamos lo siguiente `ssh-keyscan -H ip_server`, donde la ip tambien puede ser un valor secreto donde se redirige ese valor a `~/.ssh/known_hosts`.
 
 En el caso de **no tener el servidor**, se podria usar `ssh root@ip_server` nos daría un prompt para decir si queremos conectarnos al servidor.
+
+## Módulo 4 - Building workflows for CI/CD
+
+### Instalar Paquetes
+
+ejemplo de aplicativo en un proyecto *(proyecto en laravel)*
+
+```yml
+name: laravel project
+
+on: [push]
+
+jobs:
+  laravel-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3006:3006
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: laravel
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set Up
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, bcmath, pdo, pd_mysql
+
+      - name: Install Packages
+      # Evitar interacción y se ejecute automaticamente
+        run: composer install --no-interaction
+```
+
+### Ejecutar Pruebas
+
+Configurando el proyecto para funcionar de forma optima
+
+```yml
+name: laravel project
+
+on: [push]
+
+jobs:
+  laravel-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3006:3006
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: laravel
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set Up
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, bcmath, pdo, pd_mysql
+
+      - name: Install Packages
+      # Evitar interacción y se ejecute automaticamente
+        run: composer install --no-interaction
+
+      - name: Set App
+      # Manejo de las variables de entorno
+        run: cp .env-example .env
+
+      - name: Set Key
+        run: php artisan key:generate
+
+      - name: Run Tests
+        run: vendor/bin/phpunit
+```
+
+Para ello se hace una copia del `.env-example` al archivo `.env`, donde trae una variable llamada `APP_KEY` que es un hash que laravel utiliza para ciertas cuestiones, entonces necesitamos configurar esta variable. Con esto ya se podría ejecutar la aplicación de laravel. 
+
+Para los tests se puede hacer ir a la siguiente ubicación `vendor/bin/phpunit` y ejecutar los tests por defecto.
+
+### Condicionales
+
+Añadiendo esto al final, donde verificamos con ayuda de los contextos si se ejecuto de manera satisfactorio el test
+
+```yml
+      - name: Deploy
+        if: steps.test.outcome == 'success'
+        run: ls
+```
+
+### Debug
+
+```yml
+      - name: Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: composer.json
+```
+
+Esto generará un archivo en el resumen de actions, donde tambien lo podremos descargar. Ya con el archivo podremos hacer lo siguiente, *cambiar el path directamente al .log* o si queremos generar multiples archivos:
+
+```yml
+      - name: Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: |
+            composer.json
+            storage/logs/laravel.log
+```
+
+> Artifacts bastante utiles a la hora de debuggear, ya que los errores no suelen ser tan verbosos. Se pueden usar cuando un step previo haya fallado
+
+Asi como en la siguiente sentencia, donde usamos la función `failure()`
+
+```yml
+      - name: Run Tests
+        id: test
+        run: vendor/bin/phpunit
+
+      - name: Artifact
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: artifacts
+          path: |
+            composer.json
+```
+
+## Módulo 5 - Workflow Runners
+
+### Runners
+
+> La directiva `runs-on` siempre tiene que estar, *los jobs se ejecutan independientemente dentro de un servidor*
+
+Lo único que se tiene que hacer para seleccionar un sistema operativo u otro, es mediante el comando runs-on.
+
+### Self Hosted Runner
+
+Algunas veces los servidores que se tienen no soportan lo suficiente, por lo que se nos permite traer nuestros propios servidores. Para ello vamos a `settings>actions>runners>new self hosted runner` y seguir las indicaciones que nos recomienda *GitHub Actions*. y cambiar el valor del `runs-on` a `self-hosted`. Una vez subido ya con el servidor en escucha, procederá a correr el job.
+
+## Módulo 6 - Despliegues
+
+### Autenticación por SSH
+
+1. Generar llaves SSH
+2. Copiar la llave pública en *el servidor*, para que exista una conexión
+3. En GitHub Actions, crear un secreto *(ssh)*
+4.  
+
+  ```yml 
+  run: |
+    mkdir -p ~/.ssh
+    echo "${{ secrets.KEY_SERVER }}" >> ~/.ssh/id_rsa
+    chmod 600 ~/.ssh/id_rsa
+    sshkeyscan -H ip_server >> ~/.ssh/known_hosts
+  ```
+
+5. Generar un step nuevo, y ubicar `ssh servidor "ls -al"` que listara varios directorios, entonces probando en el actions nos mostrará lo mismo anteriormente
+
+### Deploy al Servidor *(Básico)*
+
+> Dependera del lenguaje, framework, app, etc que estemos usando
+
+Ejemplo de aplicación
+
+```yml
+name: deployment
+
+on: [push]
+
+jobs:
+  local-action:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set Up
+        run:  |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.KEY_SERVER }}" >> ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          sshkeyscan -H ip_address >> ~/.ssh/known_hosts 
+      
+      - name: ls ssh
+        run: ssh azureuser@ip_address "ls -al"
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        if: success()
+        with:
+          host: ip_address
+          username: username
+          key: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.port }}
+          script: |
+            cd workpath
+            git pull origin main
+```
+
+### Matrix
+
+La estrategia de tipo matrix, **permite ejecutar un job varias veces con varias especificaciones.** Para poder usar se debe ir al apartado jobs:
+
+```yml
+jobs:
+  example_matrix:
+    strategy:
+      matrix:
+        version: [10, 12, 14]
+        os: [ubuntu-latest, windows-latest]
+```
+
+Ejemplo:
+
+```yml
+name: Test Composite Action
+
+on: [push]
+
+jobs:
+  local-action:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [7.4, 8.0, 8.1]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Set Up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+      
+      - name: Run Script
+        run: |
+          echo "PHP version ${{ matrix.php-version }}"
+          php -v
+```
+
+Entonces lo ejecutará 3 veces, cada uno por cada versión, donde mediante los contextos podemos acceder a los valores de la matriz.
+

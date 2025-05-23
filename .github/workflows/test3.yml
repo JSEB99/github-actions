@@ -1,29 +1,29 @@
-name: Variables y Secretos
+# name: Variables y Secretos
 
-on: [push]
+# on: [push]
 
-jobs:
-  say-hello:
-    runs-on: ubuntu-latest
+# jobs:
+#   say-hello:
+#     runs-on: ubuntu-latest
 
-    env:
-      MY_VAR: SIUU
+#     env:
+#       MY_VAR: SIUU
 
-    steps:
-      - name: Test
-        env:
-          STEP_MY_VAR: GOAT
-        run: |
-          echo "EL $STEP_MY_VAR $MY_VAR!!!"
-          echo "Variable en GitHub ${{ vars.MY_VARIABLE_2 }}"
+#     steps:
+#       - name: Test
+#         env:
+#           STEP_MY_VAR: GOAT
+#         run: |
+#           echo "EL $STEP_MY_VAR $MY_VAR!!!"
+#           echo "Variable en GitHub ${{ vars.MY_VARIABLE_2 }}"
       
-      - name: Secret
-        run: echo "Secret ${{ secrets.MY_SECRET }}"
+#       - name: Secret
+#         run: echo "Secret ${{ secrets.MY_SECRET }}"
 
-      - name: SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" >> ~/.ssh/id_rsa 
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 127.0.1.1 >> ~/.ssh/known_hosts
-          cat ~/.ssh/known_hosts
+#       - name: SSH
+#         run: |
+#           mkdir -p ~/.ssh
+#           echo "${{ secrets.SSH_KEY }}" >> ~/.ssh/id_rsa 
+#           chmod 600 ~/.ssh/id_rsa
+#           ssh-keyscan -H 127.0.1.1 >> ~/.ssh/known_hosts
+#           cat ~/.ssh/known_hosts

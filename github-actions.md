@@ -526,3 +526,28 @@ jobs:
       - name: Test
         run: pwd
 ```
+
+## Módulo 3 - Variables y Secretos
+
+### Variables
+
+La forma mas común y utilizada de definir una variable es a traves de `jobs`, con el fin de cada uno de los *steps* tenga acceso a dichas variables. Para empezar definimos un `env` y dentro las variables.
+
+```yml
+name: Variables y Secretos
+
+on: [push]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    env:
+      MY_VAR: Mi variable de entorno
+
+    steps:
+      - name: Test
+        run: echo "Valor: $MY_VAR"
+```
+
+Donde podemos apreciar que la usamos directamente en un step, **debido a que estas se inyectan directamente en el servidor**

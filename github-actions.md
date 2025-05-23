@@ -550,4 +550,24 @@ jobs:
         run: echo "Valor: $MY_VAR"
 ```
 
-Donde podemos apreciar que la usamos directamente en un step, **debido a que estas se inyectan directamente en el servidor**
+Donde podemos apreciar que la usamos directamente en un step, **debido a que estas se inyectan directamente en el servidor**. Ademas, tambien podemos hacerlo a nivel del step:
+
+```yml
+name: Variables y Secretos
+
+on: [push]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    env:
+      MY_VAR: SIUU
+
+    steps:
+      - name: Test
+      # A nivel del step
+        env:
+          STEP_MY_VAR: GOAT
+        run: echo "EL $STEP_MY_VAR ${{ MY_VAR }}!!!"
+```

@@ -7,8 +7,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      MY_VAR: Mi variable de entorno
+      MY_VAR: SIUU
 
     steps:
       - name: Test
-        run: echo "Valor $MY_VAR"
+        env:
+          STEP_MY_VAR: GOAT
+        run: echo "EL $STEP_MY_VAR ${{ MY_VAR }}!!!"

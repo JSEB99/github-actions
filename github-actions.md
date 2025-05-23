@@ -946,5 +946,112 @@ jobs:
           php -v
 ```
 
-Entonces lo ejecutará 3 veces, cada uno por cada versión, donde mediante los contextos podemos acceder a los valores de la matriz.
+Entonces lo ejecutará 3 veces, cada uno por cada versión, donde mediante los contextos podemos acceder a los valores de la matriz. Viendose de esta manera en GitHub Actions
 
+![matrix strategy](./images/matrix-strategy.png)
+
+Permitiendo asi probar en diferentes entornos los aplicativos.
+
+## Módulo 7 - Monitoreo y Notificaciones
+
+Diferentes acciones que nos permiten conectarnos a diferentes servicios
+
+### Slack
+
+**Generar un webhook** para poder enviar nuestros mensajes y que se vean reflejados en el chat
+
+En Slack:
+
+1. Canal de slack
+2. Tools & Settings
+3. Manage apps
+4. Buscar Webhook *(incoming webhook)*
+5. Add to slack
+6. En que canal lo queremos utilizar
+7. Add incoming WebHooks integration *(Genera una URL)*
+8. Copiar la URL
+
+En el repositorio de GitHub:
+
+1. Settings
+2. Actions
+3. Secrets
+4. Generar un secreto con la **URL copiada**
+5. En el workflow agregar lo siguiente:
+
+```yml
+name: Test WebHook
+
+on: [push]
+
+jobs:
+  local-action:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Notification
+      # Usando una action preestablecida
+        uses: rtCamp/action-slack-notify@v2.1.1
+        env:
+          SLACK_WEBHOOK: ${{ secrets.WEBHOOK_URL }}
+        with:
+          author_name: "Action"
+          fields: repo, message, commit, author, action, eventName
+```
+
+[Acción utilizada](https://github.com/rtCamp/action-slack-notify)
+
+
+### Condicionales
+
+El uso de `id` para nombrar los steps y de esta manera poder acceder a ellos mediante contextos
+
+```yml
+name: Test WebHook
+
+on: [push]
+
+jobs:
+  local-action:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        id: checkout # dando id unico
+        uses: actions/checkout@v3
+      
+      - name: Notification
+      # Usando una action preestablecida
+        uses: rtCamp/action-slack-notify@v2.1.1
+        if: steps.checkout.outcome == 'success'
+        # reviso si el step checkout fue satisfactorio
+        env:
+          SLACK_WEBHOOK: ${{ secrets.WEBHOOK_URL }}
+        with:
+          author_name: "Action"
+          fields: repo, message, commit, author, action, eventName
+```
+
+### Workflow Dispatch
+
+Evento de GitHub Actions que nos sirve para poder ejecutar de **forma manual** nuestro workflow, normalmente cuando hacemos el push este se ejecuta automaticamente en GitHub Actions. Sin embargo, en ciertas situaciones queremos tener mas control sobre cuando ejecutar las tareas. Con el `workflow dispatch` nos va a permitir controlar cuando ejecutamos nuestro *workflow*. **Habilita un boton en el panel de actions para ejecución manual**. Para poder trabajar con este workflow tendremos que cambiar el evento a `on: workflow_dispatch` y listo. Entonces con el siguiente código:
+
+```yml
+name: Test5
+
+on: workflow_dispatch
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: CheckOut
+        uses: actions/checkout@v2
+
+      - name: ls
+        run: ls -al
+```

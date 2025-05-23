@@ -1,0 +1,14 @@
+name: Test5
+
+on: workflow_dispatch
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: CheckOut
+        uses: actions/checkout@v2
+
+      - name: ls
+        run: ls -al

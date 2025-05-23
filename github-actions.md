@@ -529,6 +529,8 @@ jobs:
 
 ## Módulo 3 - Variables y Secretos
 
+[Documentación de contextos](https://docs.github.com/es/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs)
+
 ### Variables
 
 La forma mas común y utilizada de definir una variable es a traves de `jobs`, con el fin de cada uno de los *steps* tenga acceso a dichas variables. Para empezar definimos un `env` y dentro las variables.
@@ -606,4 +608,38 @@ jobs:
 ```
 
 > **Ojo:** vars.MY_VARIABLE_2 y que esta vez si tenemos que usar las **llaves**
+
+A nivel repositorio permitira que se tenga acceso desde todos los workflows.
+
+### Secretos
+
+Son hechos para guardar información sensible, estos se pueden encontrar en la misma ubicación de las variables de entorno en GitHub Actions:
+
+![Github secrets](./images/github-secrets.png)
+
+> **Advertencia:** una vez creado no podras verlo de nuevo. *Pero si puedes actualizarlo*
+
+```yml
+name: Variables y Secretos
+
+on: [push]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    env:
+      MY_VAR: SIUU
+
+    steps:
+      - name: Test
+        env:
+          STEP_MY_VAR: GOAT
+        run: |
+          echo "EL $STEP_MY_VAR $MY_VAR!!!"
+          echo "Variable en GitHub ${{ vars.MY_VARIABLE_2 }}"
+      
+      - name: Secret
+        run: echo "Secret ${{ secrets.MY_SECRET }}"
+```
 

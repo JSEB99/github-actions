@@ -571,3 +571,39 @@ jobs:
           STEP_MY_VAR: GOAT
         run: echo "EL $STEP_MY_VAR $MY_VAR!!!"
 ```
+
+> Las variables de entorno cuando se ejecutan con run no llevan llaves, **y se usan solo para expresiones de GitHub Actions**.
+
+Ademas existe una forma de hacerlo mediante la plataforma de GitHub, dirigiendote a `repo settings>secrets and variables>actions>variables>new repository variable` te permite crear una variable definiendo su nombre y valor:
+
+![github-actions-vars](./images/github-actions-vars.png)
+
+**¿Cómo podremos utilizarla?**
+
+> **Contextos:** manera de obtener cierta información de todos los objetos que tenemos a disponición *(jobs, envs, var, etc)*
+
+Para poder acceder a las variables de entorno definidas en el repositorio necesitaremos usar el objeto `vars` seguido de *el nombre de la variable*. Modificando el yml quedaria asi:
+
+```yml
+name: Variables y Secretos
+
+on: [push]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    env:
+      MY_VAR: SIUU
+
+    steps:
+      - name: Test
+        env:
+          STEP_MY_VAR: GOAT
+        run: |
+          echo "EL $STEP_MY_VAR $MY_VAR!!!"
+          echo "Variable en GitHub $vars.MY_VARIABLE_2"
+```
+
+> **Ojo:** vars.MY_VARIABLE_2
+

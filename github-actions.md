@@ -527,6 +527,8 @@ jobs:
         run: pwd
 ```
 
+---
+
 ## Módulo 3 - Variables y Secretos
 
 [Documentación de contextos](https://docs.github.com/es/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs)
@@ -695,6 +697,8 @@ Cuando trabajamos con secretos debemos dar un **formateo**, es decir dentro del 
 
 En el caso de **no tener el servidor**, se podria usar `ssh root@ip_server` nos daría un prompt para decir si queremos conectarnos al servidor.
 
+---
+
 ## Módulo 4 - Building workflows for CI/CD
 
 ### Instalar Paquetes
@@ -833,6 +837,8 @@ Asi como en la siguiente sentencia, donde usamos la función `failure()`
             composer.json
 ```
 
+---
+
 ## Módulo 5 - Workflow Runners
 
 ### Runners
@@ -844,6 +850,8 @@ Lo único que se tiene que hacer para seleccionar un sistema operativo u otro, e
 ### Self Hosted Runner
 
 Algunas veces los servidores que se tienen no soportan lo suficiente, por lo que se nos permite traer nuestros propios servidores. Para ello vamos a `settings>actions>runners>new self hosted runner` y seguir las indicaciones que nos recomienda *GitHub Actions*. y cambiar el valor del `runs-on` a `self-hosted`. Una vez subido ya con el servidor en escucha, procederá a correr el job.
+
+---
 
 ## Módulo 6 - Despliegues
 
@@ -951,6 +959,8 @@ Entonces lo ejecutará 3 veces, cada uno por cada versión, donde mediante los c
 ![matrix strategy](./images/matrix-strategy.png)
 
 Permitiendo asi probar en diferentes entornos los aplicativos.
+
+---
 
 ## Módulo 7 - Monitoreo y Notificaciones
 
@@ -1088,3 +1098,7 @@ jobs:
       - name: ls
         run: ls -al
 ```
+
+Ahora cuando vamos a ejecutarlo manualmente, nos deja ingresar el parametro que le pasamos de test:
+
+![dispacth-manual](./images/manual-dispatch.png)

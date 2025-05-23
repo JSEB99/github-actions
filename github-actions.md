@@ -643,3 +643,54 @@ jobs:
         run: echo "Secret ${{ secrets.MY_SECRET }}"
 ```
 
+Notar que cuando los previsualizamos nos lo muestra asi, al ser secretos:
+
+![secrets-preview](./images/secrets-preview.png)
+
+### SSH como Secretos
+
+Valores secretos que nos permitira que no sean expuestos nuestros datos, generando la ssh key
+
+```sh
+ssh-keygen -t ed25519 -C "gh-actions" -f gh_actions_key
+```
+
+> Se usa la que no tiene la extensión `.pub` ya que esa es la clave pública, una vez generada se pone en GitHub actions igual que con los secretos
+
+Ahora para el workflow quedaria de la siguiente manera:
+
+```yml
+name: Variables y Secretos
+
+on: [push]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    env:
+      MY_VAR: SIUU
+
+    steps:
+      - name: Test
+        env:
+          STEP_MY_VAR: GOAT
+        run: |
+          echo "EL $STEP_MY_VAR $MY_VAR!!!"
+          echo "Variable en GitHub ${{ vars.MY_VARIABLE_2 }}"
+      
+      - name: Secret
+        run: echo "Secret ${{ secrets.MY_SECRET }}"
+
+      - name: SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" >> ~/.ssh/id_rsa 
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 127.0.1.1 >> ~/.ssh/known_hosts
+          cat ~/.ssh/known_hosts
+```
+
+Cuando trabajamos con secretos debemos dar un **formateo**, es decir dentro del servidor generar un directorio `.ssh` que es donde se ubican estos archivos. Luego enviamos la información a un archivo llamado `id_rsa` que es el archivo por defecto que revisa en el servidor. *cambiamos permisos para poder usar el archivo*. Aun con eso nos daria un error, ya que debemos aprobar la conexión al servidor, para ello usamos lo siguiente `ssh-keyscan -H ip_server`, donde la ip tambien puede ser un valor secreto donde se redirige ese valor a `~/.ssh/known_hosts`.
+
+En el caso de **no tener el servidor**, se podria usar `ssh root@ip_server` nos daría un prompt para decir si queremos conectarnos al servidor.
